@@ -216,7 +216,7 @@ def event1(request):
 		email.fail_silently=True
 		email.send()
 	
-		return redirect("/map")
+		return redirect("/booking")
 	return render (request,'eventForm1.html')
 
 def event2(request):
@@ -259,7 +259,7 @@ def event2(request):
 		email.fail_silently=True
 		email.send()
 	
-		return redirect("/map")
+		return redirect("/booking")
 	return render (request,'eventForm2.html')
 
 def event3(request):
@@ -302,7 +302,7 @@ def event3(request):
 		email.fail_silently=True
 		email.send()
 	
-		return redirect("/map")
+		return redirect("/booking")
 	return render (request,'eventForm3.html')
 
 def event4(request):
@@ -345,7 +345,7 @@ def event4(request):
 		email.fail_silently=True
 		email.send()
 	
-		return redirect("/map")
+		return redirect("/booking")
 	return render (request,'eventForm4.html')
 def event5(request):
 	if request.method =="POST":
@@ -387,7 +387,7 @@ def event5(request):
 		email.fail_silently=True
 		email.send()
 	
-		return redirect("/map")
+		return redirect("/booking")
 	return render (request,'eventForm5.html')
 
 

@@ -549,15 +549,7 @@
    
      <br>
      <div class="content" >
-      {% if messages%}
-         {% for message in messages %}
-        <div class="alert alert-{{ messages }} alert-dismissible fade show my-0" role="alert" style="background-color:#FFFFE0;color:red;border-style:solid;border-color:red">
-          {{ message }}
-  
-       </div>
-      {% endfor %}
-       {% endif %}
-       <br>
+   
      <form method="post">
        {% csrf_token %}
       <br> <br>

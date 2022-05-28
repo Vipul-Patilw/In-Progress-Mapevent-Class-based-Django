@@ -19,6 +19,7 @@ urlpatterns = [
    path('personalDetails.html',views.personalDetails, name='personalDetails'),
    path('eventForm1.html',views.event1, name='eventForm'),
   path('booking.html',views.booking, name='booking'),
+  path('booking',views.booking, name='booking'),
   path('booking2.html',views.booking, name='booking'),
    path('eventForm2.html',views.event2, name='eventForm'),
    path('eventForm3.html',views.event3, name='eventForm'),
