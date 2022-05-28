@@ -70,8 +70,8 @@ def index(request):
 			myuser = User.objects.create_user(username,email,password)
 			myuser.first_name = first_name
 			myuser.last_name = last_name
-			myuser.save()
-			myuser.is_active = False	
+			myuser.is_active = False
+			myuser.save()	
 			
 			users = Login(first_name=first_name,username=username, mobile_number=mobile_number,last_name=last_name,email=email,birthdate=birthdate,gender=gender,)
 			users.save()		
@@ -155,12 +155,10 @@ def logoutuser(request):
 	return redirect ("/login")
 
 def activate(request, uidb64, token):
-	try:
-		uid = decodestring(urlsafe_base64_decode(uidb64))
-		myuser = User.objects.get(pk=uid)
-		return redirect ('/sign')
-	except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-		myuser = None
+
+	uid = decodestring(urlsafe_base64_decode(uidb64))
+	myuser = User.objects.get(pk=uid)
+
 
 	if myuser is not None and generate_token.check_token(myuser, token):
 		myuser.is_active = True
