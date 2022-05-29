@@ -17,9 +17,10 @@ from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_decode
+from mapeventApp.models import AddEvent
 from . tokens import generate_token
 from django.core.mail import EmailMessage
-from mapeventApp.event import events
+
 # Create your views here.
 
 
@@ -169,11 +170,27 @@ def activate(request, uidb64, token):
 	else:
 		return render(request, 'activation_failed.html')
 
+def addevent(request):
+	if request.method =="POST":
+		event = request.POST.get('event')
+		info = request.POST.get('info')
+		lang = request.POST.get('lang')
+		lat = request.POST.get('lat')
+		maping = AddEvent(event=event,info=info,lang=lang,lat=lat)
+		maping.save()
+		maping1 = {'event1':event,'info':info,'lang':lang,'lat':lat}
+		return render(request, 'map.html',maping1)
+	return render (request, 'addevent.html')
+
+
 
 def map(request):
 	if request.user.is_anonymous:
 			return redirect ("/login")
-	return render (request,'map.html')
+	maping = AddEvent.objects.all()
+
+	maping1 = {'maping':maping}
+	return render (request,'map.html',maping1)
 
 def event1(request):
 	if request.method =="POST":
@@ -390,6 +407,48 @@ def event5(request):
 		return redirect("/booking")
 	return render (request,'eventForm5.html')
 
+def event6(request):
+	if request.method =="POST":
+		event = request.POST.get('event')
+		eventaddress = request.POST.get('eventaddress')
+		dtime = request.POST.get('dtime')
+		full_name = request.POST.get('full_name')
+		email = request.POST.get('email')
+		emailowner = request.POST.get('emailowner')
+		mobile_number = request.POST.get('mobile_number')
+		date = request.POST.get('date')
+		time = request.POST.get('time')
+		even = Event(email=email,emailowner=emailowner,mobile_number=mobile_number,full_name=full_name,eventaddress=eventaddress,event=event,date=date,time=time,dtime=dtime)
+		even.save()
+		messages.info(request, event)
+		current_site = get_current_site(request)
+		emailsub = "Event Booking Successfull"
+		emailbody = render_to_string('mailsendtourself.html',{'eventaddress': eventaddress,
+'domain': current_site.domain,
+'name': full_name,
+'event': event,
+'dtime':dtime
+})
+		from_mail = settings.EMAIL_HOST_USER
+		to_mail = [email]
+		email = EmailMessage(emailsub,emailbody,from_mail,to_mail)
+		email.fail_silently=True
+		email.send()
+		emailsub = "User book the event"
+		emailbody = render_to_string('mailsendtoOther.html',{'domain': current_site.domain,
+'event': event,
+'name': full_name,
+'mobile': mobile_number, 
+'email':email,
+'datetime':date})
+		from_mail = settings.EMAIL_HOST_USER
+		to_mail = [emailowner]
+		email = EmailMessage(emailsub,emailbody,from_mail,to_mail)
+		email.fail_silently=True
+		email.send()
+	
+		return redirect("/booking")
+	return render (request,'eventForm6.html')
 
 def booking(request):
 	if request.method =="POST":

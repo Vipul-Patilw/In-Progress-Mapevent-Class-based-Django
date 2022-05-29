@@ -166,6 +166,9 @@ li::before {
 .btn btn-primary:hover{
 color:black;
 }
+#color1 {
+  font-family:Magneto;
+}
 .msg8{
     margin: auto;
     padding: 20px;
@@ -201,25 +204,35 @@ color:black;
     <a href="personalDetails.html">Profile</a>
     <a href="booking.html" >Bookings</a>
       <a href="pass.html">Change Password</a>
+      <a href="addevent.html">Add Event</a>
+      <a href="admin">Admin</a>
     </div>
   </div>
 </div>
 </nav>
     
-
+{% if events  %}
          {% for event in events %}
-         <div class="msg8">
-            {% if event == " " %}
-            <p>No Events booked</p>
-            {% endif %}
-          <h5> {{ event }} </h5>
-          <P> {{ event.eventaddress}} </p>
-            <P> {{ event.dtime}} </p>
-                <P> <strong> Your date / time  for Event </strong> {{ event.date}}  {{ event.time}} </p>
-                        
-        </div>
-         {% endfor %}
-               
+         
+        <div class="msg8">
+          
+         
+        <h5> {{ event }} </h5>
+        <P> {{ event.eventaddress}} </p>
+          <P> {{ event.dtime}} </p>
+              <P> <strong> Your date / time  for Event </strong> {{ event.date}}  {{ event.time}} </p>
+                      
+      </div>
+      {% endfor %}
+          
+      {% else %}
+     <div align="center" class="msg8">
+      <h1>No Events booked Yet !!</h1>
+      <p> Book events for free we have excellent events in Pune you can see all events from <strong> <a href="map" style="color:green;">here</a></strong></p>
+    </div>
+      {% endif %}
+      
+        
   
 
 </body>

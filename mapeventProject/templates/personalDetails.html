@@ -157,6 +157,9 @@
         border-radius: 5px;
         
     }
+    #color1 {
+        font-family:Magneto;
+      }
     select{
         width: 200px;
         border-radius: 5px;
@@ -600,7 +603,8 @@
           <a href="#">Profile</a>
           <a href="booking.html" >Bookings</a>
             <a href="pass.html">Change Password</a>
-
+            <a href="addevent.html">Add Event</a>
+            <a href="admin">Admin</a>
           </div>
         </div>
       </div>
@@ -614,6 +618,7 @@
 </div>
 {% endfor %}
 {% endif %}
+<br>
 <div class="display_image">
     <img class="addpic" id="imgPreview" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="Preview">
     </div>
@@ -642,8 +647,8 @@
                     }
           });
                 
-        </script>         
-<br><br> 
+        </script>   
+ <br><br>        
 <div class="msg8">
 <h5 class="nm">{{ user.username }}</h5>
 <p >{{ user.first_name}} {{ user.last_name }} </p><br> </div>

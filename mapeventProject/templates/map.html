@@ -27,7 +27,7 @@
       text-align: center;
       font-family: 'Open Sans', sans-serif;
     }
-      .msg9{
+      #msg9{
       margin: auto;
       padding: 20px;
       height: auto;
@@ -40,7 +40,7 @@
       position: absolute;
       
   }
-  .dropactive{
+  #dropactive{
   margin: auto;
   height: auto;
   width:auto;
@@ -190,17 +190,19 @@ color:black;
     <a href="personalDetails.html">Profile</a>
     <a href="booking.html" >Bookings</a>
       <a href="pass.html">Change Password</a>
+      <a href="addevent.html">Add Event</a>
+      <a href="admin">Admin</a>
     </div>
   </div>
 </div>
 </nav>
 
 
-<div class="dropactive">
+<div id="dropactive">
 <a href="#" class="btn btn-primary"data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style ="background-color:	#E6E6FA; color:black; "><i class='fas fa-circle' style='font-size:15px;color:green'></i>  Active Events </a></div><br><br>
   <div class="collapse navbar-collapse" id="navbarSupportedContent1">
   <ul class="navbar-nav me-auto mb-2 mb-lg-0">
- <div  class="msg9">
+ <div  id="msg9">
   <h3>Active Events In Pune</h3><br>
  
     <a href="#" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent3" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><ul><li>
@@ -233,6 +235,13 @@ color:black;
   <ul class="navbar-nav me-auto mb-2 mb-lg-0"></li><br>
     <strong>Returning To Yourself (Expressive Arts Therapy Workshop)  </strong><p>Namita Thawanii and Madhuri Talim bring to you a series of Expressive Arts Therapy based workshops on mental health and wellbeing in Pune. this Fri May 27, 2022, 9:00 a.m. Free.</p> <a href="eventForm5.html" class="btn btn-primary" target="_blank" title="Opens in a new window">Book</a>
  <br> </div></li><br>
+ {% if event1 %}
+ <li><a href="#" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent8" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  {{event1}} <img src="https://cdn-icons-png.flaticon.com/512/168/168570.png" style="height:20px;width:20px;">
+</a><div class="collapse navbar-collapse" id="navbarSupportedContent8">
+<ul class="navbar-nav me-auto mb-2 mb-lg-0"></li><br>
+  <strong>{{event}}</strong><p>{{info}}</p><a href="eventForm6.html" class="btn btn-primary" target="_blank" title="Opens in a new window">Book</a>
+<br> </div></li><br>{% endif %}
  <br>
 </ul>
 </div>
@@ -246,7 +255,7 @@ color:black;
     </style>
    
     <div style="float:right;" id="map"></div>
-
+    
     <script>
         mapboxgl.accessToken = 'pk.eyJ1IjoicGF0aWx2aXB1bCIsImEiOiJjbDNsdGloMmYwY3c2M2tsNDA3aGwwd2xpIn0.aOLTH7E6WHyN97Yd6eLgPA';
     const map = new mapboxgl.Map({
@@ -266,17 +275,42 @@ color:black;
     'type': 'FeatureCollection',
     'features': [
     {
+    
     'type': 'Feature',
     'properties': {
-    'description':
+    'description': // '<strong>{{event}}</strong><p> {{info}} </p><a href="eventForm2.html" class="btn btn-primary" target="_blank" title="Opens in a new window">Tickets</a>',
     '<strong>Pool Party</strong><p>Enjoy Your Holiday with Pool Party, Belly Dance, Ramp Show, Quality Food & Drink @ Pune. Sat May 28 2022 at 7:00 p.m to 11:45 p.m Free.</p><a href="eventForm2.html" class="btn btn-primary" target="_blank" title="Opens in a new window">Tickets</a>',
     'icon': 'bar-15'
-    },
+  
+  },
     'geometry': {
     'type': 'Point',
-    'coordinates': [73.8940, 18.5362]
+    
+    'coordinates': // [{{lang}}, {{lat}}]    
+     [73.8940, 18.5362]
+   
     }
+   
     },
+
+    {
+    
+      'type': 'Feature',
+      'properties': {
+      'description': '<strong>{{event}}</strong><p> {{info}} </p><a href="eventForm6.html" class="btn btn-primary" target="_blank" title="Opens in a new window">Tickets</a>',
+      
+      'icon': 'bar-15'
+    
+    },
+      'geometry': {
+      'type': 'Point',
+      
+      'coordinates':  [{{lang}}, {{lat}}]    
+      
+     
+      }
+     
+      },
     {
     'type': 'Feature',
     'properties': {
@@ -398,6 +432,17 @@ color:black;
     showUserHeading: true
     })
     );
-</script>  
+    map.addControl(new mapboxgl.NavigationControl());
+    const layerList = document.getElementById('menu');
+    const inputs = layerList.getElementsByTagName('input');
+    
+    for (const input of inputs) {
+    input.onclick = (layer) => {
+    const layerId = layer.target.id;
+    map.setStyle('mapbox://styles/mapbox/' + layerId);
+    };
+    }
+</script> 
+
 </body>
 </html>

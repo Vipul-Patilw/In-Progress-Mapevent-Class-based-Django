@@ -65,4 +65,9 @@ class Event(models.Model):
 			return self.event 
 		
 	
-	
+class AddEvent(models.Model):
+		event = models.CharField(max_length=122)
+		info = models.CharField(max_length=122)
+		lang = models.FloatField()
+		lat = models.FloatField()
+			
