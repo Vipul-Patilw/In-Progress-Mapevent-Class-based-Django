@@ -83,8 +83,16 @@ WSGI_APPLICATION = 'mapeventProject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'mapeventProject',
+        'USER': 'root',
+        'PASSWORD':'Velshet@143',
+        'HOST':'localhost',
+        'PORT': '',
+        'OPTIONS': {
+            'read_default_file': '/path/to/my.cnf',
+            'init_command': 'SET default_storage_engine=INNODB'
+        }
     }
 }
 
