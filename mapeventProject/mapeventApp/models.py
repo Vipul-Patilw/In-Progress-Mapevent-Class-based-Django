@@ -71,3 +71,5 @@ class AddEvent(models.Model):
 		lang = models.FloatField()
 		lat = models.FloatField()
 			
+class ForgotPassword(models.Model):
+	email = models.CharField(max_length=222)

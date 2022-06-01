@@ -2,7 +2,7 @@
 #pylint:disable=E0001
 from quopri import decodestring
 from django.shortcuts import redirect, render
-from mapeventApp.models import  Event, Login
+from mapeventApp.models import  Event, Login,ForgotPassword
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
@@ -458,3 +458,73 @@ def booking(request):
 		return render (request,'booking2.html', {'events':events})
 	return render (request,'booking.html')
 
+def forgotpassword(request):
+	try:
+		if request.method =="POST":
+			email = request.POST.get('email')
+			user = ForgotPassword(email=email)
+			user.save()
+			myuser = User.objects.get(email=email)
+			current_site = get_current_site(request)
+			email_sub2 = 'Reset Your MCCIA Account Password'
+			body = render_to_string('password_resetMail.html',{
+					'name': myuser.first_name + myuser.last_name, 
+					'domain': current_site.domain,
+					'uid': urlsafe_base64_encode(force_bytes(myuser.pk)),
+					'token': generate_token.make_token(myuser)
+					})
+			email = EmailMessage(
+					email_sub2,
+					body,
+					settings.EMAIL_HOST_USER,
+					[myuser.email],
+					)
+				
+			email.fail_silently= True
+			email.send()
+
+			messages.info(request,"Link of recovery password has been sent to your Email address please click that link in order to change your password")
+			return render(request,'forgotPassword.html')
+			
+		return render(request,'forgotPassword.html')
+	except:
+		messages.error(request,"Sorry! this email address is not registered with us")
+		return render(request,'forgotPassword.html')
+
+
+def resetpasswordlink(request, uidb64, token):
+	uid = decodestring(urlsafe_base64_decode(uidb64))
+	myuser = User.objects.get(pk=uid)
+
+
+	if myuser is not None and generate_token.check_token(myuser, token):
+		login(request,myuser)
+		return redirect('/reset_password_success')
+		
+	else:
+		return render(request, 'password_reset_failed.html')
+	
+
+def reset_password_success(request):
+	if request.method =="POST":
+		email = request.POST.get('email')
+		new_password1 = request.POST.get('new_password1')
+		new_password2 = request.POST.get('new_password2')
+		if new_password1 != new_password2:
+					messages.error(request,"confirm password doesn't matched with the password")
+					return redirect ('/sign')
+					
+		if len(new_password1)>=6 and re.search(r"[A-Z][a-z]+[@_!#$%^&*()?/}{~:]+[0-9]",new_password1):
+			user = User.objects.get(email=email)
+			user.set_password(new_password1)
+			user.save()
+			messages.info(request,"Password has been changed successfully!!")
+			logout(request)
+			return redirect ("/login")
+			
+		else:
+			messages.error(request,"password should be at least 6 character long. contain both uppercase and lowercase character, at least one alpha numeric and one special charecter  (eg:Test@123)")
+			return redirect("/reset_password_success")
+	return render(request,'resetPassword.html')	
+
+	
