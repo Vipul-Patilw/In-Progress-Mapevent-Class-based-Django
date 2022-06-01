@@ -52,7 +52,7 @@ class ChangePassword(models.Model):
 
 class Event(models.Model):
 		event = models.CharField(max_length=122)
-		eventaddress = models.CharField(max_length=122)
+		eventaddress = models.TextField()
 		dtime = models.CharField(max_length=122)
 		full_name = models.CharField(max_length=122)
 		email = models.CharField(max_length=122)

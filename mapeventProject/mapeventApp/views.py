@@ -218,21 +218,21 @@ def event1(request):
 })
 		from_mail = settings.EMAIL_HOST_USER
 		to_mail = [email]
-		email = EmailMessage(emailsub,emailbody,from_mail,to_mail)
-		email.fail_silently=True
-		email.send()
+		emails = EmailMessage(emailsub,emailbody,from_mail,to_mail)
+		emails.fail_silently=True
+		emails.send()
 		emailsub = "User book the event"
 		emailbody = render_to_string('mailsendtoOther.html',{'domain': current_site.domain,
 'event': event,
 'name': full_name,
 'mobile': mobile_number, 
-'email':email,
+'email':even.email,
 'datetime':date})
 		from_mail = settings.EMAIL_HOST_USER
 		to_mail = [emailowner]
-		email = EmailMessage(emailsub,emailbody,from_mail,to_mail)
-		email.fail_silently=True
-		email.send()
+		emails = EmailMessage(emailsub,emailbody,from_mail,to_mail)
+		emails.fail_silently=True
+		emails.send()
 	
 		return redirect("/booking")
 	return render (request,'eventForm1.html')
