@@ -6,7 +6,6 @@ from django.core.mail import EmailMessage
 from mapeventProject import settings
 from django.shortcuts import redirect, render
 def events(request):
-    if request.method =="POST":
         event = request.POST.get('event')
         eventaddress = request.POST.get('eventaddress')
         dtime = request.POST.get('dtime')
@@ -37,7 +36,7 @@ def events(request):
 'event': event,
 'name': full_name,
 'mobile': mobile_number, 
-'email':email,
+'email':even.email,
 'datetime':date})
         from_mail = settings.EMAIL_HOST_USER
         to_mail = [emailowner]
@@ -45,4 +44,4 @@ def events(request):
         email.fail_silently=True
         email.send()
     
-        return redirect("/map")
+        
