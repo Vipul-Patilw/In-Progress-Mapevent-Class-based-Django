@@ -468,7 +468,8 @@ def forgotpassword(request):
 			current_site = get_current_site(request)
 			email_sub2 = 'Reset Your MCCIA Account Password'
 			body = render_to_string('password_resetMail.html',{
-					'name': myuser.first_name + myuser.last_name, 
+					'fname': myuser.first_name,
+					'lname': myuser.last_name, 
 					'domain': current_site.domain,
 					'uid': urlsafe_base64_encode(force_bytes(myuser.pk)),
 					'token': generate_token.make_token(myuser)
