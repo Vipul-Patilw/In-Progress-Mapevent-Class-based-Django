@@ -33,16 +33,7 @@ class Sign(models.Model):
 		return self.name
 		
 		
-class SendMoney(models.Model):
-		add = datetime.now
-		full_name = models.CharField(max_length=122)
-		email = models.CharField(max_length=122)
-		emailowner= models.CharField(max_length=122)
-		mobile_number= models.CharField(max_length=122)
-		address= models.CharField(max_length=122)
 
-		def __str__(self):
-			return self.amount
 
 
 class ChangePassword(models.Model):
@@ -67,9 +58,15 @@ class Event(models.Model):
 	
 class AddEvent(models.Model):
 		event = models.CharField(max_length=122)
-		info = models.CharField(max_length=122)
+		info = models.TextField()
+		eventaddress = models.TextField()
+		date = models.CharField(max_length=122)
+		time= models.TimeField()
 		lang = models.FloatField()
 		lat = models.FloatField()
+
+		def __str__(self):
+			return self.event
 			
 class ForgotPassword(models.Model):
 	email = models.CharField(max_length=222)

@@ -68,7 +68,7 @@ def index(request):
 				return redirect("/sign")
 				
 
-			messages.success(request, first_name.title() + " " + last_name)
+			messages.success(request, first_name.title() + " " + last_name.title())
 			myuser = User.objects.create_user(username,email,password)
 			myuser.first_name = first_name
 			myuser.last_name = last_name
@@ -97,9 +97,7 @@ def index(request):
 			
 			email.fail_silently= True
 			email.send()
-		#	context={ "bank": bank_name,
-		#	"mobile": mobile_number,
-		#	"card":card_number}
+
 			
 			return render(request, 'gotologin.html')
 					
@@ -176,13 +174,18 @@ def addevent(request):
 	if request.method =="POST":
 		event = request.POST.get('event')
 		info = request.POST.get('info')
+		eventaddress = request.POST.get('eventaddress')
+		date = request.POST.get('date')
+		time = request.POST.get('time')
 		lang = request.POST.get('lang')
 		lat = request.POST.get('lat')
-		maping = AddEvent(event=event,info=info,lang=lang,lat=lat)
+		maping = AddEvent(event=event,info=info,lang=lang,lat=lat,eventaddress=eventaddress,date=date,time=time)
 		maping.save()
-		maping1 = {'event1':event,'info':info,'lang':lang,'lat':lat}
-		return render(request, 'map.html',maping1)
+
+		#maping1 = {'event1':event,'info':info,'lang':lang,'lat':lat}
+		return  redirect('/map')
 	return render (request, 'addevent.html')
+
 
 
 
@@ -190,9 +193,9 @@ def map(request):
 	if request.user.is_anonymous:
 			return redirect ("/login")
 	maping = AddEvent.objects.all()
-
-	maping1 = {'maping':maping}
+	maping1 = {'mapings':maping}
 	return render (request,'map.html',maping1)
+
 
 def event1(request):
 	if request.method =="POST":
