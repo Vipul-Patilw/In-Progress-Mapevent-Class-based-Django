@@ -79,7 +79,7 @@ def index(request):
 			
 			#confirmation email
 			current_site = get_current_site(request)
-			email_sub2 = 'Activate your BANK-PAY Account'
+			email_sub2 = 'Activate your MCCIA Account'
 			message2 = render_to_string('email_confirmation.html',{
 				'fname': myuser.first_name,
 				'lname': myuser.last_name, 
@@ -124,7 +124,7 @@ def sign(request):
 		if user is not None:
 			
 			login(request, user)
-			return render (request,'map.html')
+			return redirect('/map')
 			#full_name = user.first_name
 		
 		
