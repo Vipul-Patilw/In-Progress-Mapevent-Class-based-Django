@@ -1,10 +1,12 @@
+from typing import List
+
+
 def pract1(list):
     temp = list[0]
     temp2 = list[len(list)-1]
     list[len(list)-1]= temp
     list[0] = temp2
-    a =list[0:len(list)]
-    
+    a = list[:]
     print(a)
 
 list = [1,2,3,4,5,6]
