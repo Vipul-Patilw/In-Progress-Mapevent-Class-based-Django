@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if messages %}
+{% for message in messages %}
+ <div class="alert alert-{{ message.tags }} alert-dismissible fade show my-0" role="alert"><img src="https://www.pinclipart.com/picdir/big/131-1310444_check-sign-23-buy-clip-art-check-mark.png" style="height=20px; width:20px; "><strong> {{ message }} </strong> Event has been booked successfully !!
+<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+           
+                {% if user.is_superuser or user.is_staff %}
+                <div class="msg8">
+                <h1> Total Events Booked by Users ({{events1.count}})</h1></div>
+                {% regroup events1 by event as event_name %}
+                {% for event in event_name %}
+                
+     
+                <div class="msg8">
+                    
+                   
+                  <form method="post">
+                    {% csrf_token %}
+                   
+                  <br>
+                      <input type="text"  placeholder="  enter email " name="event" value="{{ event.grouper }}" hidden>
+                      
+                      <button type="submit" style="decoration:none;border:none;background-color:white"> <h5> {{ event.grouper }}  </h5></button><br>
+             
+                    </form>   
+                 
+                         
+                </div>
+                {% endfor %}
+             
+           {% else %}
+           <form method="post">
+            {% csrf_token %}
+           
+          <br>
+              <input type="email"  placeholder="  enter email " name="email" value="{{ user.email }}" hidden>
+              
+          <button class="btn btn-primary" style="background-color:#36454f; " type="submit">Show Bookings</button><br><br>
+          </form>
+    
+                {% endif %}
+              
+{% endblock %}
+</body>
+</html>
