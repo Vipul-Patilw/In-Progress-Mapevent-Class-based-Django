@@ -10,7 +10,11 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent1">
   <ul class="navbar-nav me-auto mb-2 mb-lg-0">
  <div  id="msg9">
-  <h3>Active Events In Pune ({{ mapings.count }})</h3><br>
+  <h3>Active Events In Pune ({{ mapings.count }})<?php
+    $x = {{ mapings.count }};
+    $y = 4;
+    echo $x + $y;
+    ?></h3><br>
  
     <a href="#" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent3" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><ul><li>
       Karaoke Night with Rohit Joshi <span style="color:chocolate;font-size:20px;">&#9836;</sapn>
