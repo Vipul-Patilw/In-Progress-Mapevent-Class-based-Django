@@ -9,6 +9,7 @@
 {% endif %}
            
                 {% if user.is_superuser or user.is_staff %}
+                {% if events1  %}
                 <div class="msg8">
                 <h1> Total Events Booked by Users ({{events1.count}})</h1></div>
                 {% regroup events1 by event as event_name %}
@@ -31,6 +32,12 @@
                          
                 </div>
                 {% endfor %}
+                  {% else %}
+     <div align="center" class="msg8">
+      <h1>No Events booked Yet !!</h1>
+      <p> Book events for free we have excellent events in Pune you can see all events from <strong> <a href="map" style="color:green;">here</a></strong></p>
+    </div>
+      {% endif %}
              
            {% else %}
            <form method="post">

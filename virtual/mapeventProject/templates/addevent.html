@@ -99,9 +99,9 @@
   select{
       width: 200px;
       border-radius: 5px;
-      height: 27px;
+      height: 37px;
       background-color:#9fa8a3;
-      
+      display: block;
   }
   select:focus, select:hover {
         outline:none;
@@ -174,15 +174,31 @@
             <input type="text"  name="eventaddress">
             <label >Event Address</label></div>
             <div class="input-field">
-                <input type="text"  name="date">
-                <input type="time"  name="time">
-                <label >Event Date/Time</label></div>
+                <input type="text"  name="fromdate">
+                <label >Date From</label></div>
+                <div class="input-field">
+                <input type="text"  name="todate">
+                <label >Date Till</label></div>
+                <div class="input-field">
+                    <input type="time"  name="fromtime">
+                <label >Time From</label></div>
+                <div class="input-field">
+                    <input type="time"  name="totime">
+                <label >Time Till</label></div>
       <div class="input-field">
-      <input type="text"  name="lang" required >
-      <label >Longitude</label></div>
-      <div class="input-field">
-      <input type="text"   name="lat" required >
-      <label >latitude</label></div><br><br>
+      <input type="text"  name="location"  >
+      <label >Location</label></div>
+ <label for="icon">Choose a Icon:</label>
+    <select name="icon" id="icon">
+  <option value="bar-15">bar-15</option>
+  <option value="music-15">music-15</option>
+  <option value="art-gallery-15">art-gallery-15</option>
+  </select>
+ 
+
+
+
+<br><br>
       <button type="submit" style="background-color: #36454f; color:white;width:150px;height:30px">Submit</button></a><br><br><br>
   </form>
 </div>

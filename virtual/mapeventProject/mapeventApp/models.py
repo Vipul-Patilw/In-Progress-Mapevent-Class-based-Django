@@ -20,9 +20,7 @@ class Login(models.Model):
 	gender = models.CharField(max_length=122)
 
 	birthdate = models.DateField()
-	
-	
-	
+
 	def __str__(self):
 		return self.first_name 
 
@@ -47,10 +45,6 @@ class Sign(models.Model):
 	Loginpassword = models.CharField(max_length=122)
 	def __str__(self):
 		return self.name
-		
-		
-
-
 
 class ChangePassword(models.Model):
 		old_password = models.CharField(max_length=122)
@@ -82,10 +76,13 @@ class AddEvent(models.Model):
 		event = models.CharField(max_length=122)
 		info = models.TextField()
 		eventaddress = models.TextField()
-		date = models.CharField(max_length=122)
-		time= models.TimeField()
-		lang = models.FloatField()
-		lat = models.FloatField()
+		fromdate = models.CharField(max_length=122)
+		todate= models.CharField(max_length=122)
+		fromtime = models.TimeField()
+		totime= models.TimeField()
+		lat = models.CharField(max_length=122)
+		lang = models.CharField(max_length=122,default='')
+		icon = models.CharField(max_length=122)
 
 		def __str__(self):
 			return self.event

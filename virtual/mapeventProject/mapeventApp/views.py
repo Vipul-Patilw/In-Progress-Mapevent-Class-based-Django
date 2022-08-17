@@ -21,9 +21,8 @@ from django.utils.http import urlsafe_base64_decode
 from mapeventApp.models import AddEvent
 from . tokens import generate_token
 from django.core.mail import EmailMessage
-
+from geopy.geocoders import Nominatim
 # Create your views here.
-
 
 class changePassword(PasswordChangeView):
 	form_class = PasswordChangeForm
@@ -100,9 +99,7 @@ def index(request):
 
 			
 			return render(request, 'gotologin.html')
-					
-					
-			
+
 		#	except:
 			#	messages.error(request,"some problem come in our application please reopen the application")
 			#	return redirect ('/sign')
@@ -152,9 +149,7 @@ def adminsign(request):
 
 			
 			return render(request, 'gotologinadmin.html')
-					
-					
-			
+	
 		#	except:
 			#	messages.error(request,"some problem come in our application please reopen the application")
 			#	return redirect ('/sign')
@@ -175,9 +170,7 @@ def sign(request):
 			login(request, user)
 			return redirect('/map')
 			#full_name = user.first_name
-		
-		
-
+	
 		else:
 	#	if str(Loginpassword) == str(b):
 		#	messages.error(request,"password matched")
@@ -224,8 +217,6 @@ def personalDetails (request):
 	return render (request,'personalDetails.html')
 	
 
-
-
 def logoutuser(request):
 	logout(request)
 	return redirect ("/login")
@@ -246,23 +237,34 @@ def activate(request, uidb64, token):
 		return render(request, 'activation_failed.html')
 
 def addevent(request):
+
 	if request.method =="POST":
 		event = request.POST.get('event')
 		info = request.POST.get('info')
 		eventaddress = request.POST.get('eventaddress')
-		date = request.POST.get('date')
-		time = request.POST.get('time')
-		lang = request.POST.get('lang')
-		lat = request.POST.get('lat')
-		maping = AddEvent(event=event,info=info,lang=lang,lat=lat,eventaddress=eventaddress,date=date,time=time)
+		fromdate = request.POST.get('fromdate')
+		todate = request.POST.get('todate')
+		fromtime = request.POST.get('fromtime')
+		totime = request.POST.get('totime')
+		location = request.POST.get('location')
+		icon = request.POST.get('icon')
+		geolocator = Nominatim(user_agent="MyApp")
+		location = geolocator.geocode(location)
+		lang = location.longitude
+		lat = location.latitude
+		maping = AddEvent(event=event,info=info,lang=lang,lat=lat,eventaddress=eventaddress,fromdate=fromdate,fromtime=fromtime,todate=todate,totime=totime,icon=icon)
 		maping.save()
 
 		#maping1 = {'event1':event,'info':info,'lang':lang,'lat':lat}
 		return  redirect('/map')
 	return render (request, 'addevent.html')
 
-
-
+def locateEvent(request):
+	if request.method =="POST":
+		lang = request.POST.get('lang')
+		lat = request.POST.get('lat')
+		maps = {'lat':lat,'lang':lang}
+		return  render(request,'map.html',{'maps':maps})
 
 def map(request):
 	if request.user.is_anonymous:
@@ -279,36 +281,6 @@ def event1(request):
 		return redirect("/booking")
 	return render (request,'eventForm1.html')
 
-def event2(request):
-	if request.method =="POST":
-		events(request)
-		return redirect("/booking")
-	return render (request,'eventForm2.html')
-
-def event3(request):
-	if request.method =="POST":
-		events(request)
-		return redirect("/booking")
-	return render (request,'eventForm3.html')
-
-def event4(request):
-	if request.method =="POST":
-		events(request)
-		return redirect("/booking")
-	return render (request,'eventForm4.html')
-
-def event5(request):
-	if request.method =="POST":
-		events(request)
-		return redirect("/booking")
-	return render (request,'eventForm5.html')
-
-def event6(request):
-	if request.method =="POST":
-		events(request)
-		return redirect("/booking")
-	return render (request,'eventForm6.html')
-
 def booking(request):
 	if request.method =="POST":
 		email = request.POST.get('email')
@@ -317,7 +289,11 @@ def booking(request):
 		events = Event.objects.filter(email=email).all()
 		return render (request,'booking2.html', {'events':events,'events1':events1})
 	events2 = Event.objects.all()
-	events3 = Event.objects.filter(event=events2[0]).count()
+	try:
+		events3 = Event.objects.filter(event=events2[0]).count()
+		
+	except:
+		return render(request,'booking.html')
 
 	
 	main = {'events1':events2,'events3':events3}
