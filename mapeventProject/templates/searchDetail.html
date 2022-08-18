@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+ {% if events  or locations %}
+<div class="msg8">
+          
+          <p>  {% if events %}{{events.count}} {% elif locations %} {{locations.count}}  {% endif %}search results found for <strong>'{{searches}}'</strong></p>
+</div>
+             {% for event in events %}   
+                <div class="msg8">
+              <h1 style ="color:black">{{event.event}}</h1>
+                <p><strong>Address </strong>{{event.eventaddress}}</p>
+                <p>{{event.fromdate}} {{event.fromtime}} to {{event.todate}} {{event.totime}}</p>
+                <p>{{event.info}}</p>
+                </div>
+                {% endfor %}
+                
+                {% for event  in locations %}
+                  <div class="msg8">
+                <h1 style ="color:black">{{event.event}}</h1>
+                <p><strong>Address </strong>{{event.eventaddress}}</p>
+                <p>{{event.fromdate}} {{event.fromtime}} to {{event.todate}} {{event.totime}}</p>
+                <p>{{event.info}}</p>
+                </div>
+                 {% endfor %}
+                 
+                {% else %}
+              <div class="msg8">
+                <h2>No search results found for <strong>'{{searches}}'</strong></h2>
+               
+              </div>
+                
+               {% endif %}
+
+              
+{% endblock %}
+</body>
+</html>
