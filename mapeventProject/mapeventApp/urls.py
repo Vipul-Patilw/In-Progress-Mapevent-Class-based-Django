@@ -1,0 +1,37 @@
+#pylint:disable=E0001
+from django.contrib import admin
+from django.urls import path
+from django.contrib.auth import views as auth_views
+from . import views,home
+from mapeventApp.eventsform import addevent,showbookings,staffrequest,updateEvents,deleteEvents,bookevents
+from .views import changePassword
+urlpatterns = [
+   path('sign',views.index, name='sign'),
+   path('logininfo',views.index, name='sign'),
+   path('login',views.sign, name='login'),
+   path('map',home.map, name='map'),
+   path('searchdetail',views.searchDetail, name='searchdetail'),
+   path('eventeditpage',updateEvents.updateEventpage, name='alleventedit'),
+   path('editevents',updateEvents.updateEvent, name='editevents'),
+   path('',home.map, name='map'),
+   path('pass',changePassword.as_view(template_name='changePassword.html')),
+ #  path('set',changePassword.as_view(template_name='resatePassword.html')),
+   path('password_success',views.password_success, name='password_success'),
+   path('personaldetails',views.personalDetails, name='personaldetails'),
+   path('eventform',bookevents.events, name='eventform'),
+  path('adminlogin',views.adminlogin, name='admin'),
+  path('adminsignIn',views.adminsign, name='adminsign'),
+  path('booking',showbookings.booking, name='booking'),
+  path('request',staffrequest.request, name='request'),
+  path('staffdata',views.staffinfo, name='staffdata'),
+  path('deleteEvent',deleteEvents.deleteEvent, name='delteEvent'),
+   path('logout',views.logoutuser, name='logout'),
+   path('forgotPassword',views.forgotpassword, name='forgotpassword'),
+   path('reset_password_success',views.reset_password_success, name='reset_password_success'),
+   path('reset_password_success/<uidb64>/<token>',views.resetpasswordlink, name='reset_password_success'),
+   path('addevent',addevent.addevent, name='eventadd'),
+   path('gotologin',views.gotologin, name='gotologin'),
+   path('activate/<uidb64>/<token>',views.activate, name='activate'),
+
+]
+
