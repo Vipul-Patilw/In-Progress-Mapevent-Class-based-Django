@@ -4,15 +4,7 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <!-- CSS only -->
-<script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
-<script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
-<script src="{% static 'js/infinite.min.js' %}"></script>
-<style type="text/css">
-#locationbutton:hover
-{
-background-color: #f1f1f1;
-      color:black"}
-      </style>
+
 <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 <script src='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js'></script>
 <link href='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css' rel='stylesheet' />
@@ -84,7 +76,7 @@ background-color: #f1f1f1;
     let dropdown = document.getElementById("drop2");
     let mapdropclose = document.querySelector(".mapboxgl-map");
  
-    data.addEventListener("click",()=>{
+    data.addEventListener("click",function(){
       dropdown.classList.toggle('show_navbar');
     })
     mapdropclose.addEventListener('click' , function(){
@@ -97,9 +89,9 @@ background-color: #f1f1f1;
       let msg9 = document.getElementById("msg9");
       let msgWrapper = document.getElementById("msg_wrapper");
       let msgHeading = document.getElementById('msg_heading');
-      navbarsupportedcontent.addEventListner("click",()=>{
-      navbarSupportedContent.style.display ="none";
-      })
+      // navbarSupportedContent.addEventListner("click",function(){
+      // navbarSupportedContent.style.display ="none";
+      // })
       if (screen.availWidth > 768) {
         const imageInsert = document.createElement("img");
         imageInsert.setAttribute("src" , "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Ski_trail_rating_symbol-green_circle.svg/480px-Ski_trail_rating_symbol-green_circle.svg.png");
