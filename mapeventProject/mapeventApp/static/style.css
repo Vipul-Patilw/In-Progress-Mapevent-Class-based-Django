@@ -179,8 +179,9 @@ min-width: 320px;
 box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 z-index: 2;
 right:-9px;
-height:91vh;
+height:89vh;
 top: 43px;
+overflow: overlay;
 }
 /*@media (max-width : 426px){
 .dropdown-content{
@@ -188,6 +189,9 @@ top: 43px;
   }
 }
 */
+#menu input{
+  height: 17px;
+}
 .dropdown-content a {
 color: white;
 padding: 12px 16px;

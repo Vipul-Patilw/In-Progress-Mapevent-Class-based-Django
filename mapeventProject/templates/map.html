@@ -13,6 +13,13 @@
   <ul class="navbar-nav me-auto mb-2 mb-lg-0">
    
  <div  id="msg9">
+  <div id="menu">
+<input id="streets-v11" type="radio" name="rtoggle" value="streets" checked="checked">
+<label for="streets-v11">streets</label>
+<input id="satellite-v9" type="radio" name="rtoggle" value="satellite" >
+<label for="satellite-v9">satellite</label>
+</div>
+<br><br>
 <form class="form-inline my-2 my-lg-0" method ="post" >
 {% csrf_token %}
       <input class="form-control mr-sm-2" type="search" placeholder="Search by Event name or location" aria-label="Search" name="search" autocomplete="off" required>
@@ -70,6 +77,7 @@
  <h3 id="msg_heading">Active Events In India ({{ mapings.count }}) </h3><br>
  </div>
  <div class="infinite-container">
+
  {% for page in paging %}
  <div class="infinite-item">
  <li><a href="#" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent{{page.id}}" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -122,13 +130,14 @@
     </style>
    
     <div style="float:right;" id="map"></div>
-    
+
     <script>
       
         mapboxgl.accessToken = 'pk.eyJ1IjoicGF0aWx2aXB1bCIsImEiOiJjbDNsdGloMmYwY3c2M2tsNDA3aGwwd2xpIn0.aOLTH7E6WHyN97Yd6eLgPA';
     const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v11',
+     antialias: true,
     {% if lat %}
     
     center: [{{lang}}, {{lat}}]
@@ -238,9 +247,10 @@
     showUserHeading: true
     })
     );
-    map.addControl(new mapboxgl.NavigationControl());
-    const layerList = document.getElementById('menu');
+       const layerList = document.getElementById('menu');
     const inputs = layerList.getElementsByTagName('input');
+    console.log(inputs);
+    // const inputs = query('input');
     
     for (const input of inputs) {
     input.onclick = (layer) => {

@@ -12,15 +12,14 @@ def addevent(request):
 				todate = request.POST.get('todate')
 				fromtime = request.POST.get('fromtime')
 				totime = request.POST.get('totime')
-				locate = request.POST.get('location')
 				icon = request.POST.get('icon')
 				eventermail = request.POST.get('eventermail')
 				city = request.POST.get('city')
 				geolocator = Nominatim(user_agent="MyApp")
-				location = geolocator.geocode(locate)
+				location = geolocator.geocode(eventaddress)
 				lang = location.longitude
 				lat = location.latitude
-				maping = AddEvent(event=event,info=info,lang=lang,lat=lat,eventaddress=eventaddress,fromdate=fromdate,fromtime=fromtime,todate=todate,totime=totime,icon=icon, location=location,eventermail=eventermail,city=city,locate=locate)
+				maping = AddEvent(event=event,info=info,lang=lang,lat=lat,eventaddress=eventaddress,fromdate=fromdate,fromtime=fromtime,todate=todate,totime=totime,icon=icon, location=location,eventermail=eventermail,city=city)
 				maping.save()
 				return  redirect('/map')
 		except:
