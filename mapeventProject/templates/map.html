@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
  
  <title>Welcome To MCCIA</title>
  
@@ -6,20 +7,29 @@
 
 <body>
   {% block content %}
-
+<div id="menu">
+<input id="streets-v11" type="radio" name="rtoggle" value="streets" checked="checked">
+<label for="streets-v11"><img src="{% static 'Street.jpeg' %}" style="height:30px;width:30px; border-radius:5px;margin-left:32px;margin-top:-55px;border:solid white"></label>
+<input id="satellite-v9" type="radio" name="rtoggle" value="satellite" >
+<label for="satellite-v9"><img src="{% static 'Satellite.jpeg' %}" style="height:30px;width:30px; border-radius:5px;margin-left:32px;margin-top:-55px;border:solid white"></label>
+</div>
 <div id="dropactive">
-<a href="#" class="btn btn-primary"data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style ="background-color:	#E6E6FA; color:black; "><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Ski_trail_rating_symbol-green_circle.svg/480px-Ski_trail_rating_symbol-green_circle.svg.png" style="height:17px">  Active Events </a></div><br><br>
+<a href="#" class="btn btn-primary"data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style ="background-color:	#E6E6FA; color:black; height:30px; width:30px "><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Ski_trail_rating_symbol-green_circle.svg/480px-Ski_trail_rating_symbol-green_circle.svg.png" style="height:17px; margin-top:-10px; margin-left:-6px">  </a></div><br><br>
+ 
  <div class="collapse navbar-collapse" id="navbarSupportedContent">
   <ul class="navbar-nav me-auto mb-2 mb-lg-0">
    
  <div  id="msg9">
-  <div id="menu">
-<input id="streets-v11" type="radio" name="rtoggle" value="streets" checked="checked">
-<label for="streets-v11">streets</label>
-<input id="satellite-v9" type="radio" name="rtoggle" value="satellite" >
-<label for="satellite-v9">satellite</label>
-</div>
-<br><br>
+<!-- <form method ="post" >
+ {% csrf_token %}
+ <input name="street" type="hidden" value="streets-v11" >
+ <button type ="submit "><img src="{% static 'Street.jpeg' %}" style="height:15px"> </button></form>
+ <form method ="post" >
+ {% csrf_token %}
+ <input name="satelite" type="hidden" value="satellite-v9" >
+ <button type ="submit " style="height:30px; width:30px "><img src="{% static 'Satellite.jpeg' %}" style="height:25px;width:25px;margin-left:-7px"></button></form> -->
+  
+
 <form class="form-inline my-2 my-lg-0" method ="post" >
 {% csrf_token %}
       <input class="form-control mr-sm-2" type="search" placeholder="Search by Event name or location" aria-label="Search" name="search" autocomplete="off" required>
@@ -49,7 +59,7 @@
  {% csrf_token %}
  <input type="text" value="{{page.id}}" name="active_event" hidden>
  <button  class="btn btn-primary" type="submit">Book The Event</button>
- </form><br> 
+ </form><br> 		
  <br> </div></li><br>
  {% endfor %}
  <div class="pagination">
@@ -128,7 +138,11 @@
     font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
     }
     </style>
+   <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
+   <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css" type="text/css">
+ 
    
+ 
     <div style="float:right;" id="map"></div>
 
     <script>
@@ -152,6 +166,8 @@
     });
      
     map.on('load', () => {
+    
+    
     map.addSource('places', {
     // This GeoJSON contains features that include an "icon"
     // property. The value of the "icon" property corresponds
@@ -189,7 +205,8 @@
     });
     
     // Add a layer showing the places.
-    map.addLayer({
+    map.addLayer(
+    {
     'id': 'places',
     'type': 'symbol',
     'source': 'places',
@@ -247,17 +264,22 @@
     showUserHeading: true
     })
     );
-       const layerList = document.getElementById('menu');
-    const inputs = layerList.getElementsByTagName('input');
-    console.log(inputs);
-    // const inputs = query('input');
+   const layerList = document.getElementById('menu');
+   const inputs = layerList.getElementsByTagName('input');
+   //console.log(inputs);
+   for (const input of inputs) {
+   input.onclick = (layer) => {
+   const layerId = layer.target.id;
+  map.setStyle('mapbox://styles/mapbox/' + layerId);
     
-    for (const input of inputs) {
-    input.onclick = (layer) => {
-    const layerId = layer.target.id;
-    map.setStyle('mapbox://styles/mapbox/' + layerId);
-    };
+  };
     }
+    map.addControl(
+    new MapboxDirections({
+    accessToken: mapboxgl.accessToken
+    }),
+    'top-left'
+    );
 </script> 
 
 </body>

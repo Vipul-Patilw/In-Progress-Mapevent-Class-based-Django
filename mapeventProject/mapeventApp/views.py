@@ -20,7 +20,61 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_decode
 from . tokens import generate_token
 from django.core.mail import EmailMessage
+from .models import AddEvent
+import datetime as dt
+import pandas as pd
+import os
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+from django.http import HttpResponse
 
+from django.shortcuts import render, redirect 
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+ 
+import csv
+def import_export_event_csv(request):
+ 
+    if 'export_event' in request.POST:
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="EventsData.csv"'        
+        writer = csv.writer(response)
+        
+        writer.writerow(['Event Details'])
+        writer.writerow(['Event Name','Event Address' , 'Event Detail' , 'Event from date','Event till date','Event from time','Event till time','City','lat','lang','icon'])
+ 
+        events = AddEvent.objects.all().values_list('event','eventaddress' , 'info' , 'fromdate','todate','fromtime','totime','city','lat','lang','icon' )
+        for event in events:
+            writer.writerow(event)
+        return response
+              
+    try:
+        if request.method =="POST" and request.FILES['myfile']:
+            myfile = request.FILES['myfile']    
+          
+            fs = FileSystemStorage()
+            filename = fs.save(myfile.name, myfile)
+            uploaded_file_url = fs.url(filename)
+            excel_file = uploaded_file_url
+            print(excel_file) 
+            empexceldata = pd.read_csv("."+excel_file,encoding='utf-8')
+            print(type(empexceldata))
+            dbframe = empexceldata
+            for dbframe in dbframe.itertuples():
+                fromtime = dt.datetime.strptime(dbframe.time_from, '%H:%M:%S')
+                fromdate = dt.datetime.strptime(dbframe.event_datefrom, '%d-%m-%Y')
+                todate = dt.datetime.strptime(dbframe.event_datetill, '%d-%m-%Y')
+                obj = AddEvent.objects.create(event=dbframe.event_name,info=dbframe.event_details, eventaddress=dbframe.event_address,fromdate=fromdate,todate=todate,fromtime=fromtime,totime=dt.datetime.strptime(dbframe.time_till, '%H:%M:%S'),lat=dbframe.latitude,lang=dbframe.longitude,icon=dbframe.event_icon,city=dbframe.city)
+                print(type(obj))
+                obj.save()
+ 
+            return redirect('/map',{'uploaded_file_url':uploaded_file_url})
+    except Exception as identifier:
+        messages.error(request,f"Error: {identifier}")
+        return redirect('/importexportevent')
+     
+    return render(request, 'importexportevent.html',{})
+ 
 # Create your views here.
 
 class changePassword(PasswordChangeView):
@@ -143,6 +197,7 @@ def adminsign(request):
 			myuser = User.objects.create_user(username,email,password)
 			myuser.first_name = first_name
 			myuser.last_name = last_name
+			myuser.is_active = False
 			myuser.save()	
 			users = Staff(first_name=first_name,username=username, last_name=last_name,email=email)
 			users.save()			

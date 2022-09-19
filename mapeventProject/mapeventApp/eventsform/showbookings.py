@@ -1,6 +1,6 @@
 from mapeventApp.models import Event
 from django.shortcuts import redirect, render
-def booking(request):
+def booking_admin_view(request):
 	if request.method =="POST":
 		email = request.POST.get('email')
 		event = request.POST.get('event')
@@ -20,3 +20,8 @@ def booking(request):
 	main = {'events1':events2,'events3':events3,'eventcount':eventscount}
 	
 	return render (request,'booking.html',main)
+
+def booking_user_view(request, email):
+		events = Event.objects.filter(email=email).all()
+		return render (request,'booking.html', {'events':events})
+	

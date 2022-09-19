@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
+from django.conf.urls.static import static  
+from django.conf import settings  
 
 admin.site.site_header = "MCCIA Admin"
 admin.site.site_title = "MCCIA Admin Portal"
@@ -26,4 +27,4 @@ admin.site.app_index = "MapEvent"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('mapeventApp.urls'))
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -7,8 +7,22 @@
 </div>
 {% endfor %}
 {% endif %}
-           
-                {% if user.is_superuser or user.is_staff %}
+{% if events %}
+         {% for event in events %}
+         
+         <div class="msg8">
+         
+         
+         <h5> {{ event }} </h5>
+         <P> {{ event.eventaddress}} </p>
+         <P> {{ event.dtime}} </p>
+         <P> <strong> Your date / time  for Event </strong> {{ event.date}}  {{ event.time}} </p>
+         
+         </div>
+         {% endfor %}
+        
+         
+                {% elif user.is_superuser or user.is_staff %}
                 {% if events1  %}
                 
                 <div class="msg8">
@@ -35,22 +49,16 @@
                 {% endfor %}
                   {% else %}
      <div align="center" class="msg8">
-      <h1>No Events booked Yet !!</h1>
-      <p> Book events for free we have excellent events in Pune you can see all events from <strong> <a href="map" style="color:green;">here</a></strong></p>
-    </div>
+      <h1>No Events booked By any user!!</h1>
+        </div>
       {% endif %}
-             
-           {% else %}
-           <form method="post">
-            {% csrf_token %}
-           
-          <br>
-              <input type="email"  placeholder="  enter email " name="email" value="{{ user.email }}" hidden>
-              
-          <button class="btn btn-primary" style="background-color:#36454f; " type="submit">Show Bookings</button><br><br>
-          </form>
+             {% else %}
+             <div align="center" class="msg8">
+             <h1>No Events booked Yet !!</h1>
+             <p> Book events for free we have excellent events in Pune you can see all events from <strong> <a href="map" style="color:green;">here</a></strong></p>
+             </div>
+             {% endif %}
     
-                {% endif %}
               
 {% endblock %}
 </body>

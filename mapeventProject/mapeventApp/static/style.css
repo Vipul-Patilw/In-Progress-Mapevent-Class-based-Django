@@ -51,11 +51,12 @@ div.pagination a {
    padding: 20px;
    width:300px;
    box-sizing: border-box;
-   background-color:		#E6E6FA;
+   background-color:#E6E6FA;
    float:left;
-   overflow-y: scroll; height:91vh;
-   z-index: 1;
+   overflow-y: scroll; height:84vh;
+   z-index: 3;
    position: absolute;
+   margin-top:-48px;
    
 }
 #dropactive{
@@ -64,9 +65,10 @@ height: auto;
 width:auto;
 box-sizing: border-box;
 background-color:#E6E6FA;
-float:left;
-z-index: 1;
+z-index: 2;
 position: absolute;
+Margin-top:42%;
+margin-left:89%;
 
 }
 
@@ -145,9 +147,9 @@ input{
 
 }
 
-.dd{
+.request_count{
 background-color:green;
-border-radius: 100%;
+border-radius: 50%;
 
 }
 .navbar{
@@ -171,16 +173,17 @@ li{
 #msg_wrapper{
   margin-bottom: 17px;
 }
+
 .dropdown-content {
 display: none;
 position: absolute;
 background-color: black;
 min-width: 320px;
 box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-z-index: 2;
-right:-9px;
-height:89vh;
-top: 43px;
+z-index: 4;
+right:-12px;
+height:84vh;
+top: 47px;
 overflow: overlay;
 }
 /*@media (max-width : 426px){
@@ -189,8 +192,15 @@ overflow: overlay;
   }
 }
 */
+#menu {
+position: absolute;
+margin-left:80%;
+margin-top:17%;
+z-index:2;
+}
 #menu input{
-  height: 17px;
+  height: 5px;
+  
 }
 .dropdown-content a {
 color: white;

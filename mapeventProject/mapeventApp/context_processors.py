@@ -1,10 +1,11 @@
-from mapeventApp.models import AddEvent
+from mapeventApp.models import AddEvent,Staff
 from geopy.geocoders import Nominatim
 from django.shortcuts import redirect,render
 from django.core.paginator import  Paginator
 import datetime
 def locations(request):
 	date=datetime.date.today()
+	staff = Staff.objects.all()
 	if 'basecity' in request.POST:
 		basecity = request.POST.get('basecity')
 		citynameunique = AddEvent.objects.filter(city=basecity).all().values_list('city', flat=True).distinct()
@@ -20,20 +21,23 @@ def locations(request):
 #		redirects = redirect('/map')
 #		context_redirect.update(redirects)
 	#	return render(request,'map.html',{'baselat':baselat,'baselang':baselang}
+	
 	else:
 		baselang = ""
 		baselat = ""
 		eventbasepaging=""
 		evntsbasecount=""
-		citynameunique=""
-		
+		citynameunique=""		
 	locations = AddEvent.objects.all().values_list('city', flat=True).distinct() 
+	
 	dict = {
 	'locations':locations,
 	'baselat':baselat,
 	'baselang':baselang,'eventbasepaging':eventbasepaging,'eventbasecount':evntsbasecount,
 'citynameunique':citynameunique,
-'date':date
+'date':date,
+'staff':staff
 }
 	return dict
-		
+
+			

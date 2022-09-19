@@ -6,6 +6,7 @@ def request(request):
 	if request.method =="POST" and 'user' in request.POST:
 			username = request.POST.get('username')
 			users = User.objects.get(username=username)
+			users.is_active = True
 			users.is_staff = True
 			users.save()
 			staff = Staff.objects.get(username=username)

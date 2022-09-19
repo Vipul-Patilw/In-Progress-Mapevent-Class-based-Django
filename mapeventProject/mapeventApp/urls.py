@@ -2,12 +2,16 @@
 from django.contrib import admin
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from . import views,home
+from . import views,home,context_processors
+
 from mapeventApp.eventsform import addevent,showbookings,staffrequest,updateEvents,deleteEvents,bookevents
 from .views import changePassword
 urlpatterns = [
    path('sign',views.index, name='sign'),
    path('logininfo',views.index, name='sign'),
+   path('importexportevent', views.import_export_event_csv,name="importexport event"),  
+      
+  #  path('importexportevent',views.Import_csv, name='importexportvent'),
    path('login',views.sign, name='login'),
    path('map',home.map, name='map'),
    path('searchdetail',views.searchDetail, name='searchdetail'),
@@ -21,7 +25,8 @@ urlpatterns = [
    path('eventform',bookevents.events, name='eventform'),
   path('adminlogin',views.adminlogin, name='admin'),
   path('adminsignIn',views.adminsign, name='adminsign'),
-  path('booking',showbookings.booking, name='booking'),
+  path('booking',showbookings.booking_admin_view, name='booking_users'),
+  path('booking-<email>',showbookings.booking_user_view, name='bookinguser'),
   path('request',staffrequest.request, name='request'),
   path('staffdata',views.staffinfo, name='staffdata'),
   path('deleteEvent',deleteEvents.deleteEvent, name='delteEvent'),

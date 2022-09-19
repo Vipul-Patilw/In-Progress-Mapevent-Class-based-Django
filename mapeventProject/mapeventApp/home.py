@@ -7,7 +7,6 @@ def map(request):
 			return redirect ("/login")
 	date=datetime.date.today()
 	maping = AddEvent.objects.filter(todate__gte=date).all().order_by('fromdate').values()
-	staff = Staff.objects.all()
 	pagination = Paginator(maping,2)
 	page_number = request.GET.get('page')
 	
@@ -17,9 +16,15 @@ def map(request):
 	   paging = pagination.get_page(1)
 	except EmptyPage:
 		paging = pagination.get_page(pagination.num_pages)
-	maping1 = {'mapings':maping,'staff':staff,'paging':paging}
 	
 	#if request.method =="POST":
+#	if 'satelite' in request.POST:
+#		style_map= request.POST.get('satelite')
+#	if 'street' in request.POST:
+#		style_map= request.POST.get('street')
+#	if 'satelite' not in request.POST and 'street' not in request.POST:
+#		style_map= "streets-v11"
+	maping1 = {'mapings':maping,'paging':paging}#'style_map':style_map}
 	if 'search' in request.POST:
 				
 					search= request.POST.get('search')
@@ -40,4 +45,4 @@ def map(request):
 			return render(request,'eventdetail.html',{'eventinfo':eventsinfo})
 			
 	
-	return render (request,'map.html',maping1)
+	return render (request,'map.html',maping1,)

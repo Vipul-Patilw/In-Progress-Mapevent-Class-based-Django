@@ -91,6 +91,7 @@ class AddEvent(models.Model):
 
 		def __str__(self):
 			return self.city
+		objects = models.Manager()
 class LocateEvent(models.Model):
 		lat = models.CharField(max_length=122)
 		lang = models.CharField(max_length=122,default='')			

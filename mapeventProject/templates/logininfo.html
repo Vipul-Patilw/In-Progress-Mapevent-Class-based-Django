@@ -1,7 +1,8 @@
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="icon" type ="image" href="{% static 'logo-MCCIA.jpg' %}">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=, initial-scale=1.0">
@@ -512,7 +513,7 @@
 <body>
     <div class="background_color">
         <div id="clr">
-<a href= "index.html"> HOME </a>
+<a href= "map"> HOME </a>
            
         </div>
     </div>
@@ -537,7 +538,7 @@
 
 <lable>Username : </lable><input type="text" placeholder=" enter username" name="username" required>
 
-<lable>Mobile number : </lable><input type="tel" value="+91" style="width:35px; margin-right:5px" readonly><input type="tel" placeholder=" enter mobile number" name="mobile_number" maxlength="10" id="tel">
+<lable>Mobile number : </lable><input type="tel" value="+91" style="width:35px; margin-right:5px"><input type="tel" placeholder=" enter mobile number" name="mobile_number" maxlength="10" id="tel">
 
 <lable>Email Address : </lable><input type="email" placeholder=" enter email address" name="email" required>
    
