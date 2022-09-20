@@ -17,6 +17,7 @@ urlpatterns = [
    path('searchdetail',views.searchDetail, name='searchdetail'),
    path('eventeditpage',updateEvents.updateEventpage, name='alleventedit'),
    path('editevents',updateEvents.updateEvent, name='editevents'),
+   path('eventdetails-<event_id>',home.eventdetail, name='eventdetails'),
    path('',home.map, name='map'),
    path('pass',changePassword.as_view(template_name='changePassword.html')),
  #  path('set',changePassword.as_view(template_name='resatePassword.html')),

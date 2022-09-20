@@ -1,21 +1,48 @@
 from mapeventApp.models import AddEvent,Staff
 from django.shortcuts import redirect, render
-from django.core.paginator import  Paginator
+from django.core import paginator
+from django.template.loader import render_to_string
 import datetime
+from django.http import JsonResponse
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+NEWS_COUNT_PER_PAGE = 9
 def map(request):
+	
 	if request.user.is_anonymous:
 			return redirect ("/login")
 	date=datetime.date.today()
 	maping = AddEvent.objects.filter(todate__gte=date).all().order_by('fromdate').values()
-	pagination = Paginator(maping,2)
+	pagination = paginator.Paginator(maping,2)
 	page_number = request.GET.get('page')
-	
+	page = int(request.GET.get('page', 1))
+	posts = AddEvent.objects.all().order_by('fromdate')
+	p = paginator.Paginator(posts,NEWS_COUNT_PER_PAGE)
 	try:
-	   paging = pagination.get_page(page_number)
-	except PageNotAnInteger:
-	   paging = pagination.get_page(1)
-	except EmptyPage:
-		paging = pagination.get_page(pagination.num_pages)
+		post_page = p.page(page)
+	except paginator.EmptyPage:
+		post_page = paginator.Page([], page, p)
+		
+	if  not is_ajax(request):
+		context = {
+            'posts': post_page,
+        }
+		return render(request,
+                      'map.html',
+                      context)
+	
+	else:
+		content = ''
+		for post in post_page:
+			content += render_to_string('list-events.html',
+                                        {'post': post},
+                                        request=request)
+		return JsonResponse({
+            "content": content,
+            "end_pagination": True if page >= p.num_pages else False,
+        })
+	
+
 	
 	#if request.method =="POST":
 #	if 'satelite' in request.POST:
@@ -46,3 +73,8 @@ def map(request):
 			
 	
 	return render (request,'map.html',maping1,)
+
+def eventdetail(request,event_id):
+			eventsinfo = AddEvent.objects.filter(id= event_id).all()
+			return render(request,'eventdetail.html',{'eventinfo':eventsinfo})
+
