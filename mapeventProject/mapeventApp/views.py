@@ -57,20 +57,20 @@ def import_export_event_csv(request):
             uploaded_file_url = fs.url(filename)
             excel_file = uploaded_file_url
             print(excel_file) 
-            empexceldata = pd.read_csv("."+excel_file,encoding='utf-8')
+            empexceldata = pd.read_excel("."+excel_file)
             print(type(empexceldata))
             dbframe = empexceldata
             for dbframe in dbframe.itertuples():
-                fromtime = dt.datetime.strptime(dbframe.time_from, '%H:%M:%S')
-                fromdate = dt.datetime.strptime(dbframe.event_datefrom, '%d-%m-%Y')
-                todate = dt.datetime.strptime(dbframe.event_datetill, '%d-%m-%Y')
-                obj = AddEvent.objects.create(event=dbframe.event_name,info=dbframe.event_details, eventaddress=dbframe.event_address,fromdate=fromdate,todate=todate,fromtime=fromtime,totime=dt.datetime.strptime(dbframe.time_till, '%H:%M:%S'),lat=dbframe.latitude,lang=dbframe.longitude,icon=dbframe.event_icon,city=dbframe.city)
+                fromtime = dbframe.time_from
+                fromdate = dbframe.event_datefrom
+                todate = dbframe.event_datetill
+                obj = AddEvent.objects.create(event=dbframe.event_name,info=dbframe.event_details, eventaddress=dbframe.event_address,fromdate=fromdate,todate=todate,lat=dbframe.latitude,lang=dbframe.longitude,icon=dbframe.event_icon,city=dbframe.city,fromtime=fromtime,totime= dbframe.time_till)
                 print(type(obj))
                 obj.save()
  
-            return redirect('/map',{'uploaded_file_url':uploaded_file_url})
+            return redirect('/map')
     except Exception as identifier:
-        messages.error(request,f"Error: {identifier}")
+        messages.error(request,f"{identifier}")
         return redirect('/importexportevent')
      
     return render(request, 'importexportevent.html',{})

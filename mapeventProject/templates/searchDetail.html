@@ -1,10 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class ="msg8">
+<form class="form-inline my-2 my-lg-0" method ="post" action="{% url 'map' %}">
+{% csrf_token %}
+      <input class="form-control mr-sm-2" type="search" placeholder="Search by Event name or location" aria-label="Search" name="search" id="textSearch" onkeyup="searchOpen()" required>
+      <button class="btn btn-outline-success my-2 my-sm-0 m-lg-2" type="submit"  >Search</button>
+    </form>
  {% if events or locations %}
-<div class="msg8">
+
           
           <p> {% if locations %} {{locations.count}} {% elif events %}{{events.count}}  {% endif %}search results found for <strong>'{{searches}}'</strong></p>
-</div>
+
            {% if locations %}   
                 {% for event  in locations %}
                   <div class="msg8">
@@ -32,7 +38,7 @@
                
         </div>
  {% endif %}
-              
+     </div>         
 {% endblock %}
 </body>
 </html>

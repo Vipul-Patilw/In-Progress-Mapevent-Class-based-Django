@@ -2,7 +2,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<title>Welcome to MCCIA  {% for event in eventinfo %} - {{event.event}} {% endfor %}</title>
+<title>{% if eventinfo %} {% for event in eventinfo %} Event - {{event.event}}{% endfor %}{% elif eventbasepaging %} {% for event in citynameunique %}Events In {{event.title}} | India {% endfor %} {% else %} Welcome to MCCIA  {% endif %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <!-- CSS only -->
 <link rel="icon" type ="image" href="{% static 'logo-MCCIA.jpg' %}">
@@ -54,7 +54,7 @@
       </div></div>
      {% endif %}
       <a href="{% if user.is_superuser or user.is_staff %}booking{% else %}booking-{{user.email}}{% endif %}" >Bookings</a>
-        <a href="importexportevent">Import/Export Events  </a>
+        <a href="importexportevent"> {% if user.is_superuser or user.is_staff %}Import/Export Events{% else %}Events Data{% endif %}</a>
         <a href="pass">Change Password</a>
         {% if user.is_superuser or user.is_staff %}
         <a href="addevent">Add Events</a>

@@ -1,18 +1,16 @@
 from mapeventApp.models import AddEvent,Staff
 from geopy.geocoders import Nominatim
 from django.shortcuts import redirect,render
-from django.core.paginator import  Paginator
+from django.core import  paginator
 import datetime
 def locations(request):
 	date=datetime.date.today()
 	staff = Staff.objects.all()
+	
 	if 'basecity' in request.POST:
 		basecity = request.POST.get('basecity')
 		citynameunique = AddEvent.objects.filter(city=basecity).all().values_list('city', flat=True).distinct()
 		evntsbasecount = AddEvent.objects.filter(city=basecity)
-		pagination = Paginator(evntsbasecount,3)
-		page_number = request.GET.get('page')
-		eventbasepaging = pagination.get_page(page_number)
 		geolocators = Nominatim(user_agent="MyApp")
 		baselocation = geolocators.geocode(basecity)
 		baselang = baselocation.longitude
@@ -33,7 +31,7 @@ def locations(request):
 	dict = {
 	'locations':locations,
 	'baselat':baselat,
-	'baselang':baselang,'eventbasepaging':eventbasepaging,'eventbasecount':evntsbasecount,
+	'baselang':baselang,'eventbasepaging':evntsbasecount,'eventbasecount':evntsbasecount,
 'citynameunique':citynameunique,
 'date':date,
 'staff':staff

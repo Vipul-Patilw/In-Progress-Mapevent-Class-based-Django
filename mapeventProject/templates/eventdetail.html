@@ -9,7 +9,7 @@
 {% for event in eventinfo %}
 <h1 class="nm">{{ event.event }}</h1>
 <p ><strong>Address:</strong>{{ event.eventaddress}}</p>
-<p><strong>Datetime: {{ event.fromdate }} to {{event.todate}} {{event.fromtime}} - {{event.totime}}</p><br>
+<p><strong>Datetime: </strong>{{ event.fromdate }} to {{event.todate}} {{event.fromtime}} - {{event.totime}}</p><br>
 <h3>About the event</h3>
 <p>{{event.info}}</p>
 {% endfor %}
@@ -17,4 +17,3 @@
 {% endblock %}
 </body>
 </html>
-

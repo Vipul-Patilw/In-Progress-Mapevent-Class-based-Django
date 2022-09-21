@@ -185,7 +185,8 @@
       <input type="text"  value= "{{user.first_name}} {{user.last_name}}" name="full_name" required >
       <label >Full Name</label></div><div class="input-field"><input type="email"  value= "{{user.email}}" name="email" required readonly>
         <label >Email</label></div>  <input type="email" placeholder=" email of owner" name="emailowner" value="{{event.eventermail}}" hidden>
-      <div class="input-field"> <input  type="tel"  name="mobile_number" required>
+      <div class="input-field">
+      <input type="tel"  name="mobile_number" maxlength="10" id="tel" value ="{% for m in users %}{{m.mobile_number}}{% endfor %}">
         <label >Mobile number</label> </div>
       
             <div class="input-field"><input type="date" name="date" {% if date  > event.fromdate %} min="{{date |date:'Y-m-d'}}" {% else %} min="{{event.fromdate |date:'Y-m-d'}}" {% endif %}  max="{{event.todate |date:'Y-m-d'}}" required>  <input type="time"  name="time" min="{{event.fromtime |date:'H:i'}}" max="{{event.totime |date:'H:i'}}"required>

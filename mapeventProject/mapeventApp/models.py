@@ -22,7 +22,7 @@ class Login(models.Model):
 	birthdate = models.DateField()
 
 	def __str__(self):
-		return self.first_name 
+		return self.first_name
 
 class Staff(models.Model):
 	

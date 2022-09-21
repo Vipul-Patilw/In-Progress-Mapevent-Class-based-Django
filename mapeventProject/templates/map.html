@@ -29,10 +29,10 @@
  <button type ="submit " style="height:30px; width:30px "><img src="{% static 'Satellite.jpeg' %}" style="height:25px;width:25px;margin-left:-7px"></button></form> -->
   
 
-<form class="form-inline my-2 my-lg-0" method ="post" >
+<form class="form-inline my-2 my-lg-0" method ="post" action="{% url 'map' %}">
 {% csrf_token %}
-      <input class="form-control mr-sm-2" type="search" placeholder="Search by Event name or location" aria-label="Search" name="search" autocomplete="off" required>
-      <button class="btn btn-outline-success my-2 my-sm-0 m-lg-2" type="submit" >Search</button>
+      <input class="form-control mr-sm-2" type="search" placeholder="Search by Event name or location" aria-label="Search" name="search" id="textSearch" onkeyup="searchOpen()" required>
+      <button class="btn btn-outline-success my-2 my-sm-0 m-lg-2" type="submit"  >Search</button>
     </form>
 <br>
 {% if eventbasepaging %}
@@ -41,83 +41,47 @@
     <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
     <h3 id="msg_heading">Active Events In {% for page in citynameunique %}{{page.title}}{% endfor %} ({{ eventbasecount.count }})</h3><br>
   </div>
-{% for page in eventbasepaging %}
- <li><a href="#" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent{{page.id}}" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
- {{ page.event }} <img src="https://cdn-icons-png.flaticon.com/512/168/168570.png" style="height:20px;width:20px;">
- </a><div class="collapse navbar-collapse" id="navbarSupportedContent{{page.id}}">
 
- <ul class="navbar-nav me-auto mb-2 mb-lg-0"></li><br>
- {% include 'list-events.html' %} </div></li><br>
- {% endfor %}
- <div class="pagination">
- <span class="step-links">
- {% if paging.has_previous %}
- <a href="?page=1">&laquo; first</a>
- <a href="?page={{ paging.previous_page_number }}">previous</a>
- {% endif %}
+
+
+<div class="infinite-item">
+<!--  <ul class="navbar-nav me-auto mb-2 mb-lg-0"> -->
+   {% for page in eventbasepaging %}
+      {% include 'list-events.html' %} 
+   {% endfor %}
  
- <!-- <a href="?page={{ mapings.number }}">{{ mapings.number }} </a> -->
+
+</div>
  
- {% if paging.has_next %}
- 
- <a href="?page={{ paging.next_page_number }}">next</a>
- <a href="?page={{ paging.paginator.num_pages }}">last &raquo;</a>
- {% endif %}
- </span>
- </div>
  <br>
- </ul>
+ 
   
  {% else %}
  <div id="msg_wrapper">
  <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
  <h3 id="msg_heading">Active Events In India ({{ mapings.count }}) </h3><br>
  </div>
- <div class="infinite-container news-list">
+ <div class="infinite-container">
 
  
 <div class="infinite-item">
-  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-    {% for page in posts %}
-      <li>
-        <a href="#" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent{{page.id}}" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        {{ page.event }} <img src="https://cdn-icons-png.flaticon.com/512/168/168570.png" style="height:20px;width:20px;">
-        </a>
-      </li>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent{{page.id}}">
-        <strong>{{ page.event }}</strong><p>{{ page.info |slice:":255" }}..<br><br><a href="eventdetails-{{page.id}}" style ="background-color:#E6E6FA;border:none;color:skyblue"><strong> read more..</strong></a> <br><br><b> Address:</b><button class="btn btn-default btn-lg" type="submit">   <form method="post" >
-        {% csrf_token %}
-        <input type="number"  name="lat"  value="{{page.lat}}" hidden>
-        <input type="number"  name="lang"  value="{{page.lang}}" hidden>
-        <button class="btn btn-default btn-lg" type="submit" style="margin-left: -24px;"><img src="https://icones.pro/wp-content/uploads/2021/02/icone-de-localisation-noire.png" style="height:20px;margin-top: -5px;"><u>{{ page.eventaddress }}</u></button>
-        </form> </button> <br><b> Date/Time:</b>  {{ page.fromdate }} {{ page.fromtime }} to {{ page.todate }} {{ page.totime }}</p>
-        <br>
-        <form method="post"> 
-        {% csrf_token %}
-        <input type="text" value="{{page.id}}" name="active_event" hidden>
-        <button  class="btn btn-primary" type="submit">Book</button>
-        </form><br> 		
-        <br>
-      </div>
+<!--  <ul class="navbar-nav me-auto mb-2 mb-lg-0"> -->
+    {% for page in events  %}
+       {% include 'list-events.html' %} 
     {% endfor %}
-  </ul>
-</div>
-  <!-- {% include 'list-events.html' %}  -->
+  
 </div>
 
-{% if paging.has_next %}
-<div class="pagination">
-<a class="infinite-more-link" href="?page={{ paging.next_page_number }}" style ="text-align:center">Load more</a>
+
 </div>
-{% endif %}
-</span>
-</div>
+<span class="loader" style ="margin-left:50%;color:skyblue"></span>
 <br>
 </ul>
 
 {% endif %}
+</ul>
 </div>
-</ul></ul></ul></ul></span></ul></ul></div>
+
  <!-- 'icon': 'bar-15'
  'icon': 'music-15'
  'icon': 'art-gallery-15' -->
@@ -175,7 +139,7 @@
     
       'type': 'Feature',
       'properties': {
-      'description': '<strong>{{ maping.event }}</strong><p> {{ maping.info |slice:":255" }}<br><br><a href="eventdetails-{{maping.id}}" style ="border:none;color:grey"><strong> read more..</strong></a> <br><br><b> Address:</b> {{ maping.eventaddress }} <br><b> Date/Time:</b> {{ maping.fromdate }} {{ maping.fromtime }} to {{ maping.todate }} {{ maping.totime }}</p><form method="post">{% csrf_token %}<input type="text" value="{{maping.id}}" name="active_event" hidden><button  class="btn btn-primary" type="submit">Book</button></form>',
+      'description': '<strong>{{ maping.event }}</strong><p> {{ maping.info |slice:":255" }}<br><br><a href="eventdetails-{{maping.id}}" style ="border:none;color:grey"><strong> read more..</strong></a> <br><br><b> Address:</b> {{ maping.eventaddress }} <br><b> Date/Time:</b> {{ maping.fromdate }} {{ maping.fromtime }} to {{ maping.todate }} {{ maping.totime }}</p><a href ="bookingform-{{maping.id}}-{{user.email}}"  class="btn btn-primary" style ="background-color:blue;color:white">Book</a>',
       
       'icon': '{{maping.icon}}'
     
@@ -276,7 +240,7 @@
 
      $(document).ready(function () {
             window.news_index = "{% url 'map' %}";
-
+            console.log(page)
             var page = 1;
             var block_request = false;
             var end_pagination = false;
@@ -285,6 +249,8 @@
                 var margin = $('#msg9').scrollTop();
                 
                 if (margin && end_pagination === false && block_request === false) {
+                    console.log(margin)
+                    $(".loader").addClass('spinner-border');
                     block_request = true;
                     page += 1;
                     console.log(margin)
@@ -297,15 +263,37 @@
                         success: function (data) {
                             if (data.end_pagination === true) {
                                 end_pagination = true;
+                                $(".loader"). removeClass('spinner-border');
                             } else {
                                 block_request = false;
                             }
-                            $('.news-list').append(data.content);
+                            $('.infinite-container').append(data.content);
                         }
                     })
                 }
             });
         })
+        
+        function searchOpen() {
+        var search = $('#txtSearch').val()
+        var data = {
+        search: search
+        };
+        $.ajax({
+        url: 'map',
+        data: data,
+        dataType: 'jsonp',
+        jsonp: 'callback',
+        jsonpCallback: 'searchResult'
+        });
+        }
+        
+        
+        function searchResult(data) {
+        $( "#txtSearch" ).autocomplete ({
+        source: data
+        });
+        }
 </script> 
 
 </body>

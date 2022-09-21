@@ -1,4 +1,4 @@
-from mapeventApp.models import Event
+from mapeventApp.models import Event,Login
 from django.shortcuts import redirect, render
 def booking_admin_view(request):
 	if request.method =="POST":
@@ -23,5 +23,7 @@ def booking_admin_view(request):
 
 def booking_user_view(request, email):
 		events = Event.objects.filter(email=email).all()
-		return render (request,'booking.html', {'events':events})
+		
+		
+		return render (request,'booking.html', {'events':events,})
 	
