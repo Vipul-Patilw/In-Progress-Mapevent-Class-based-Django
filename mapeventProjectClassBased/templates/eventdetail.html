@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %} 
+
+<head>
+
+ </head>
+        
+<div class="msg8">
+
+<h1 class="nm">{{ event_detail.event }}</h1>
+<p ><strong>Address: </strong>{{ event_detail.eventaddress}}</p>
+<p><strong>Datetime: </strong> {{ event_detail.fromdate }} to {{event_detail.todate}} {{event_detail.fromtime}} - {{event_detail.totime}}</p><br>
+<h3>About the event</h3>
+<p>{{ event_detail.info.html |safe }} </p>
+</div>
+{% endblock %}
+</body>
+</html>

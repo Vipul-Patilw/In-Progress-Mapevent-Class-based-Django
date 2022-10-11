@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+
+                
+                <div class="msg8">
+                <h1> Update/Delete Events  </h1></div>
+                {% if messages %}
+{% for message in messages %}
+ <div class="alert alert-{{ message.tags }} alert-dismissible fade show my-0" role="alert"><img src="https://www.pinclipart.com/picdir/big/131-1310444_check-sign-23-buy-clip-art-check-mark.png" style="height=20px; width:20px; "><strong> {{ message }} </strong> 
+<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+{% if event_list %}
+                  
+                  {% for event in event_list %}
+                
+                <div class="msg8">
+                <a href="#" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent{{event.id}}" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><h2 style ="width:50%">{{event.event}}</h2></a>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent{{event.id}}">
+                
+                        <p><strong>Event name: </strong>{{event.event}}</p>
+                        <p><strong>Event info: </strong>{{event.info.html | safe |slice:":255"}}.. <br><br><a href="event/{{event.pk}}" style ="border:none;color:skyblue"><strong> read more</strong></a></p>
+                        <p><strong>Event address: </strong>{{event.eventaddress}}</p>
+                        <p><strong>Event datetime: </strong>{{event.fromdate}} TO {{event.todate}} {{event.fromtime}} - {{event.totime}}</p>
+                      <br><br> </div>
+                          <a href="update/{{event.pk}}" class="btn btn-primary"  style="decoration:none;border:none;background-color:blue; posting: absolute; margin-top:-70px; margin-left:60%;color:white">Edit </a><a href="delete/{{event.pk}}" class="btn btn-primary"  style="decoration:none;border:none;background-color:red; posting: absolute; margin-top:-117px; margin-left:80%;color: white">Delete </a>
+                </div>
+                {% endfor %}
+                <br>
+         {% else %}
+               <div class="msg8">
+                 <h1>No Events</h1>
+               </div>
+                {% endif %}
+         
+{% endblock %}
+</body>
+</html>

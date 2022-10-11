@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+   <!-- CSS only -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+   <!-- JavaScript Bundle with Popper -->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+   
+   </script>
+    {% include 'django_quill/media.html' %} 
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+   <link rel="stylesheet" href="css/main.css">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+   <script src="js/main.js"></script>
+<link rel="stylesheet" href="{% static 'addevent_style.css' %}">
+    
+    <title>Event Form</title>
+</head>
+<body>
+    <nav  class="navbar navbar-dark bg-dark"  aria-expanded="false" >
+        <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'map' %}" id ="color1">MCCIA</a>
+        </div>
+        </nav>
+   
+     <br>
+   
+     <div class="content" >
+      
+  <form method="post" enctype="multipart/form-data" data-ajax="false">
+  {% csrf_token %}
+  <br> <br>
+{{ form.media }}
+  {% for field in form %}
+   {% if field.name != "info" and field.name != "city" and field.name != "icon" and field.name != "lat" and field.name != "lang" and field.name != "location" %}
+  
+  <div class="input-field error">  
+ {{ field }}
+ 
+  <p>{% for error in field.errors %}{{ error }}{% endfor %}</p>
+  
+  {{field.label_tag}}
+  </div>
+   {% endif %}
+  {% endfor %}
+  
+ {% if form.info and form.icon and form.city %}
+  
+  <br>  
+  {{ form.info.label_tag}}  
+  {{ form.info }}
+  <br>
+  
+  {{ form.icon.label_tag}} 
+  {{ form.icon }}
+  <br>
+  {{ form.city.label_tag}}  
+  {{ form.city }}
+  
+  {% endif %}
+ 
+  <br><br>
+   <button type="submit" style="background-color: #36454f; color:white;width:150px;height:30px">Submit</button><br><br><br>   
+   </form>
+</div>
+     
+</body>
+</html>
